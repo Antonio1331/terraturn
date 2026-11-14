@@ -1,0 +1,4 @@
+Django>=5.1
+psycopg[binary]>=3.2
+requests>=2.32
+numpy>=2.1
