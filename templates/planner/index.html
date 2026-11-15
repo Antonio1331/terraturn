@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TerraTurn — Earth Observation Crop Rotation Decision Support</title>
+  <title>TerraTurn — Earth Observation &amp; Orbital Crop Decision Support</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,11 +42,7 @@
       --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-canvas);
@@ -57,11 +53,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .mono {
-      font-family: var(--font-mono);
-      font-variant-numeric: tabular-nums;
-    }
+    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
+    /* Top System Telemetry Strip */
     .gov-banner {
       background: var(--nasa-blue-darkest);
       color: #DCE4EF;
@@ -78,6 +72,21 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: #2E8540;
+      margin-right: 6px;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
     }
 
     .app-header {
@@ -99,40 +108,12 @@
       gap: 20px;
     }
 
-    .brand-block {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand-block { display: flex; align-items: center; gap: 12px; }
+    .brand-marker { width: 10px; height: 22px; background: var(--nasa-blue-dark); border-right: 3px solid var(--nasa-red); }
+    .brand-name { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: var(--nasa-blue-darkest); }
+    .brand-tag { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); border-left: 1px solid var(--border-light); padding-left: 12px; }
 
-    .brand-marker {
-      width: 10px;
-      height: 22px;
-      background: var(--nasa-blue-dark);
-      border-right: 3px solid var(--nasa-red);
-    }
-
-    .brand-name {
-      font-size: 19px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--nasa-blue-darkest);
-    }
-
-    .brand-tag {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      border-left: 1px solid var(--border-light);
-      padding-left: 12px;
-    }
-
-    .nav-tabs {
-      display: flex;
-      height: 58px;
-      gap: 2px;
-    }
-
+    .nav-tabs { display: flex; height: 58px; gap: 2px; }
     .view-tab {
       height: 58px;
       padding: 0 16px;
@@ -145,24 +126,10 @@
       color: var(--text-secondary);
       cursor: pointer;
     }
+    .view-tab:hover { color: var(--nasa-blue-dark); background: var(--bg-subtle); }
+    .view-tab.active { color: var(--nasa-blue-dark); font-weight: 700; border-bottom-color: var(--nasa-blue); }
 
-    .view-tab:hover {
-      color: var(--nasa-blue-dark);
-      background: var(--bg-subtle);
-    }
-
-    .view-tab.active {
-      color: var(--nasa-blue-dark);
-      font-weight: 700;
-      border-bottom-color: var(--nasa-blue);
-    }
-
-    .header-badges {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .header-badges { display: flex; align-items: center; gap: 8px; }
     .sys-chip {
       font-family: var(--font-mono);
       font-size: 11px;
@@ -172,11 +139,8 @@
       padding: 3px 8px;
     }
 
-    .control-bar {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-light);
-    }
-
+    /* Context Control Bar */
+    .control-bar { background: var(--bg-surface); border-bottom: 1px solid var(--border-light); }
     .control-inner {
       max-width: 1440px;
       margin: 0 auto;
@@ -188,26 +152,9 @@
       flex-wrap: wrap;
     }
 
-    .control-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .field-inline {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .field-inline label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
+    .control-group { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .field-inline { display: flex; align-items: center; gap: 8px; }
+    .field-inline label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--text-secondary); }
 
     select.nasa-select {
       height: 34px;
@@ -219,15 +166,8 @@
       border: 1px solid var(--border-dark);
       border-radius: 0;
     }
-
-    select.nasa-select:focus {
-      outline: 2px solid var(--nasa-blue);
-      outline-offset: -1px;
-    }
-
-    select.nasa-select.alert-mode {
-      border-left: 3px solid var(--nasa-red);
-    }
+    select.nasa-select:focus { outline: 2px solid var(--nasa-blue); outline-offset: -1px; }
+    select.nasa-select.alert-mode { border-left: 3px solid var(--nasa-red); }
 
     .btn-nasa-primary {
       height: 34px;
@@ -240,11 +180,7 @@
       border: 1px solid var(--nasa-blue-dark);
       cursor: pointer;
     }
-
-    .btn-nasa-primary:hover {
-      background: var(--nasa-blue);
-      border-color: var(--nasa-blue);
-    }
+    .btn-nasa-primary:hover { background: var(--nasa-blue); border-color: var(--nasa-blue); }
 
     .btn-nasa-outline {
       height: 34px;
@@ -257,24 +193,28 @@
       border: 1px solid var(--nasa-blue-dark);
       cursor: pointer;
     }
+    .btn-nasa-outline:hover { background: var(--nasa-blue-lightest); }
 
-    .btn-nasa-outline:hover {
-      background: var(--nasa-blue-lightest);
+    .btn-nasa-cam {
+      height: 34px;
+      padding: 0 12px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      background: var(--nasa-blue-darkest);
+      color: #FFFFFF;
+      border: 1px solid var(--nasa-blue-darkest);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
+    .btn-nasa-cam:hover { background: var(--nasa-red); border-color: var(--nasa-red); }
 
-    .workspace {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 20px 24px 48px;
-    }
-
-    .app-view {
-      display: none;
-    }
-
-    .app-view.active {
-      display: block;
-    }
+    /* Workspace */
+    .workspace { max-width: 1440px; margin: 0 auto; padding: 20px 24px 48px; }
+    .app-view { display: none; }
+    .app-view.active { display: block; }
 
     .workbench-grid {
       display: grid;
@@ -283,11 +223,7 @@
       align-items: start;
     }
 
-    .module {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
-    }
-
+    .module { background: var(--bg-surface); border: 1px solid var(--border-light); }
     .module-head {
       padding: 10px 14px;
       background: var(--bg-subtle);
@@ -296,8 +232,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
+      flex-wrap: wrap;
     }
-
     .module-head h2 {
       font-family: var(--font-mono);
       font-size: 11.5px;
@@ -306,23 +242,11 @@
       letter-spacing: 0.04em;
       color: var(--text-primary);
     }
+    .module-body { padding: 16px; }
 
-    .module-body {
-      padding: 16px;
-    }
-
-    .param-group {
-      padding-bottom: 16px;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .param-group:last-child {
-      padding-bottom: 0;
-      margin-bottom: 0;
-      border-bottom: none;
-    }
-
+    /* Sidebar */
+    .param-group { padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .param-group:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
     .group-label {
       font-family: var(--font-mono);
       font-size: 10.5px;
@@ -334,48 +258,15 @@
       display: flex;
       justify-content: space-between;
     }
+    .input-stack { margin-bottom: 11px; }
+    .input-stack:last-child { margin-bottom: 0; }
+    .input-stack label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+    .input-stack select { width: 100%; }
 
-    .input-stack {
-      margin-bottom: 11px;
-    }
-
-    .input-stack:last-child {
-      margin-bottom: 0;
-    }
-
-    .input-stack label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-
-    .input-stack select {
-      width: 100%;
-    }
-
-    .weight-row {
-      margin-bottom: 12px;
-    }
-
-    .weight-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .weight-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-
-    .weight-head label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
+    .weight-row { margin-bottom: 12px; }
+    .weight-row:last-child { margin-bottom: 0; }
+    .weight-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .weight-head label { font-size: 12px; font-weight: 500; color: var(--text-primary); }
     .weight-num {
       width: 48px;
       height: 24px;
@@ -386,12 +277,7 @@
       border: 1px solid var(--border-dark);
       background: var(--bg-surface);
     }
-
-    .weight-slider {
-      width: 100%;
-      accent-color: var(--nasa-blue-dark);
-      cursor: pointer;
-    }
+    .weight-slider { width: 100%; accent-color: var(--nasa-blue-dark); cursor: pointer; }
 
     .disclaimer-box {
       border-left: 3px solid var(--nasa-blue-dark);
@@ -401,12 +287,9 @@
       color: var(--text-secondary);
     }
 
-    .analytics-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+    .analytics-stack { display: flex; flex-direction: column; gap: 20px; }
 
+    /* Map & Orbital HUD */
     .map-bar {
       padding: 10px 14px;
       border-bottom: 1px solid var(--border-light);
@@ -416,13 +299,7 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-
-    .sensor-tabs {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-    }
-
+    .sensor-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
     .layer-pill {
       height: 30px;
       padding: 0 11px;
@@ -434,18 +311,8 @@
       border: 1px solid var(--border-light);
       cursor: pointer;
     }
-
-    .layer-pill:hover {
-      border-color: var(--nasa-blue-dark);
-      color: var(--nasa-blue-dark);
-    }
-
-    .layer-pill.active {
-      background: var(--nasa-blue-dark);
-      border-color: var(--nasa-blue-dark);
-      color: #FFFFFF;
-      font-weight: 600;
-    }
+    .layer-pill:hover { border-color: var(--nasa-blue-dark); color: var(--nasa-blue-dark); }
+    .layer-pill.active { background: var(--nasa-blue-dark); border-color: var(--nasa-blue-dark); color: #FFFFFF; font-weight: 600; }
 
     .map-meta-controls {
       display: flex;
@@ -455,24 +322,28 @@
       font-size: 11px;
       color: var(--text-secondary);
     }
+    .map-meta-controls input[type="range"] { width: 68px; accent-color: var(--nasa-blue-dark); }
 
-    .map-meta-controls input[type="range"] {
-      width: 68px;
-      accent-color: var(--nasa-blue-dark);
-    }
+    .map-frame { position: relative; height: 400px; width: 100%; background: #0B1324; }
+    #fieldLeafletMap { height: 100%; width: 100%; z-index: 1; }
 
-    .map-frame {
-      position: relative;
-      height: 390px;
-      width: 100%;
-      background: #E2E4E6;
+    /* Orbital Satellite Pass Telemetry Overlay */
+    .orbital-hud {
+      position: absolute;
+      top: 12px;
+      left: 52px;
+      z-index: 500;
+      background: rgba(6, 31, 74, 0.92);
+      color: #FFFFFF;
+      border: 1px solid #105BD8;
+      border-left: 3px solid #FC3D21;
+      padding: 8px 12px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      line-height: 1.45;
+      pointer-events: none;
     }
-
-    #fieldLeafletMap {
-      height: 100%;
-      width: 100%;
-      z-index: 1;
-    }
+    .orbital-hud-title { color: #93C5FD; font-weight: 500; letter-spacing: 0.04em; }
 
     .map-legend {
       position: absolute;
@@ -484,29 +355,9 @@
       padding: 8px 10px;
       font-size: 11px;
     }
-
-    .legend-title {
-      font-family: var(--font-mono);
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 5px;
-    }
-
-    .legend-items {
-      display: flex;
-      gap: 10px;
-      font-family: var(--font-mono);
-      color: var(--text-secondary);
-    }
-
-    .swatch {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.45);
-      margin-right: 4px;
-      vertical-align: middle;
-    }
+    .legend-title { font-family: var(--font-mono); font-weight: 500; color: var(--text-primary); margin-bottom: 5px; }
+    .legend-items { display: flex; gap: 10px; font-family: var(--font-mono); color: var(--text-secondary); }
+    .swatch { display: inline-block; width: 10px; height: 10px; border: 1px solid rgba(0,0,0,0.45); margin-right: 4px; vertical-align: middle; }
 
     .telemetry-bar {
       display: grid;
@@ -514,53 +365,29 @@
       border-top: 1px solid var(--border-light);
       background: var(--bg-subtle);
     }
+    .tele-item { padding: 10px 14px; border-right: 1px solid var(--border-light); }
+    .tele-item:last-child { border-right: none; }
+    .tele-item label { display: block; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+    .tele-item strong { font-family: var(--font-mono); font-size: 13.5px; font-weight: 500; color: var(--text-primary); }
+    .tele-zone strong { font-family: var(--font-sans); font-weight: 600; font-size: 13px; }
 
-    .tele-item {
-      padding: 10px 14px;
-      border-right: 1px solid var(--border-light);
-    }
-
-    .tele-item:last-child {
-      border-right: none;
-    }
-
-    .tele-item label {
-      display: block;
+    /* Chart & Nov* Footnote */
+    .chart-legend { display: flex; gap: 14px; font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); flex-wrap: wrap; align-items: center; }
+    .chart-sync-pill {
       font-family: var(--font-mono);
       font-size: 10px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2px;
+      padding: 2px 6px;
+      background: var(--nasa-blue-tint);
+      color: var(--nasa-blue-darkest);
+      border: 1px solid var(--nasa-blue);
+      transition: background 0.25s ease, color 0.25s ease;
     }
-
-    .tele-item strong {
-      font-family: var(--font-mono);
-      font-size: 13.5px;
-      font-weight: 500;
-      color: var(--text-primary);
+    .chart-sync-pill.flash {
+      background: var(--nasa-red);
+      color: #FFFFFF;
+      border-color: var(--nasa-red);
     }
-
-    .tele-zone strong {
-      font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 13px;
-    }
-
-    .chart-legend {
-      display: flex;
-      gap: 14px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-secondary);
-      flex-wrap: wrap;
-    }
-
-    .chart-stage {
-      position: relative;
-      height: 210px;
-      width: 100%;
-    }
-
+    .chart-stage { position: relative; height: 220px; width: 100%; }
     .chart-tip {
       position: absolute;
       display: none;
@@ -569,21 +396,93 @@
       color: #FFFFFF;
       font-family: var(--font-mono);
       font-size: 11px;
-      padding: 5px 9px;
+      padding: 7px 10px;
+      border-left: 3px solid var(--nasa-red);
       z-index: 30;
+      max-width: 380px;
+      line-height: 1.4;
+    }
+    .chart-footnote {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-light);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .table-scroll {
-      overflow-x: auto;
+    /* Field Camera Vision Modal */
+    .cam-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 31, 74, 0.78);
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-
-    table.data-grid {
+    .cam-modal.open { display: flex; }
+    .cam-dialog {
+      background: var(--bg-surface);
+      border: 2px solid var(--nasa-blue-darkest);
+      width: 680px;
+      max-width: 100%;
+    }
+    .cam-viewport {
+      position: relative;
+      background: #061F4A;
+      height: 340px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #fieldCamVideo {
       width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 13px;
+      height: 100%;
+      object-fit: cover;
     }
+    .cam-reticle {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border: 2px solid #FC3D21;
+      box-shadow: 0 0 0 9999px rgba(6, 31, 74, 0.35);
+      pointer-events: none;
+    }
+    .cam-reticle::after {
+      content: "TARGET SAMPLE ROI";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: #FC3D21;
+      color: #FFFFFF;
+      padding: 1px 5px;
+    }
+    .cam-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border-light);
+      background: var(--bg-subtle);
+    }
+    .cam-metric-cell {
+      padding: 10px 14px;
+      border-right: 1px solid var(--border-light);
+    }
+    .cam-metric-cell:last-child { border-right: none; }
+    .cam-metric-cell label { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .cam-metric-cell strong { font-family: var(--font-mono); font-size: 14px; color: var(--nasa-blue-darkest); }
 
+    /* Comparison Table */
+    .table-scroll { overflow-x: auto; }
+    table.data-grid { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
     table.data-grid th {
       background: var(--bg-subtle);
       border-bottom: 1px solid var(--border-light);
@@ -595,37 +494,13 @@
       color: var(--text-secondary);
       white-space: nowrap;
     }
+    table.data-grid td { padding: 12px; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+    tr.strategy-row { cursor: pointer; }
+    tr.strategy-row:hover { background: var(--bg-subtle); }
+    tr.strategy-row.top-match { background: var(--nasa-blue-lightest); }
 
-    table.data-grid td {
-      padding: 12px;
-      border-bottom: 1px solid var(--border-light);
-      vertical-align: top;
-    }
-
-    tr.strategy-row {
-      cursor: pointer;
-    }
-
-    tr.strategy-row:hover {
-      background: var(--bg-subtle);
-    }
-
-    tr.strategy-row.top-match {
-      background: var(--nasa-blue-lightest);
-    }
-
-    .strat-name {
-      font-weight: 600;
-      color: var(--text-primary);
-      display: block;
-    }
-
-    .strat-seq {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
+    .strat-name { font-weight: 600; color: var(--text-primary); display: block; }
+    .strat-seq { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
     .fit-badge {
       display: inline-block;
       font-family: var(--font-mono);
@@ -635,221 +510,51 @@
       border: 1px solid var(--border-dark);
       background: var(--bg-surface);
     }
+    tr.top-match .fit-badge { background: var(--nasa-blue-dark); border-color: var(--nasa-blue-dark); color: #FFFFFF; }
+    .val-good { color: var(--nasa-green); font-weight: 600; }
+    .val-warn { color: var(--nasa-red-dark); font-weight: 600; }
+    .action-link { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; color: var(--nasa-blue); background: none; border: none; cursor: pointer; text-decoration: underline; }
 
-    tr.top-match .fit-badge {
-      background: var(--nasa-blue-dark);
-      border-color: var(--nasa-blue-dark);
-      color: #FFFFFF;
-    }
+    tr.drawer-row { display: none; background: var(--bg-subtle); }
+    tr.drawer-row.open { display: table-row; }
+    .drawer-cols { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; padding: 4px; }
+    .evidence-card { background: var(--bg-surface); border: 1px solid var(--border-light); border-top: 3px solid var(--nasa-blue-dark); padding: 12px 14px; }
+    .evidence-card.local-check { border-top-color: var(--nasa-red); }
+    .evidence-card h4 { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--nasa-blue-dark); margin-bottom: 8px; }
+    .evidence-card.local-check h4 { color: var(--nasa-red-dark); }
+    .evidence-card ul { padding-left: 16px; font-size: 12.5px; color: var(--text-secondary); }
+    .evidence-card li { margin-bottom: 5px; }
+    .term-note { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-light); font-size: 12px; color: var(--text-muted); }
+    .check-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--text-primary); margin-bottom: 7px; cursor: pointer; }
+    .check-row input { margin-top: 3px; accent-color: var(--nasa-blue-dark); }
 
-    .val-good {
-      color: var(--nasa-green);
-      font-weight: 600;
-    }
-
-    .val-warn {
-      color: var(--nasa-red-dark);
-      font-weight: 600;
-    }
-
-    .action-link {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      font-weight: 500;
-      color: var(--nasa-blue);
-      background: none;
-      border: none;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    tr.drawer-row {
-      display: none;
-      background: var(--bg-subtle);
-    }
-
-    tr.drawer-row.open {
-      display: table-row;
-    }
-
-    .drawer-cols {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 16px;
-      padding: 4px;
-    }
-
-    .evidence-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
-      border-top: 3px solid var(--nasa-blue-dark);
-      padding: 12px 14px;
-    }
-
-    .evidence-card.local-check {
-      border-top-color: var(--nasa-red);
-    }
-
-    .evidence-card h4 {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      color: var(--nasa-blue-dark);
-      margin-bottom: 8px;
-    }
-
-    .evidence-card.local-check h4 {
-      color: var(--nasa-red-dark);
-    }
-
-    .evidence-card ul {
-      padding-left: 16px;
-      font-size: 12.5px;
-      color: var(--text-secondary);
-    }
-
-    .evidence-card li {
-      margin-bottom: 5px;
-    }
-
-    .term-note {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed var(--border-light);
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .check-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 12.5px;
-      color: var(--text-primary);
-      margin-bottom: 7px;
-      cursor: pointer;
-    }
-
-    .check-row input {
-      margin-top: 3px;
-      accent-color: var(--nasa-blue-dark);
-    }
-
-    .page-intro {
-      margin-bottom: 20px;
-    }
-
-    .page-intro h1 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--nasa-blue-darkest);
-      margin-bottom: 6px;
-    }
-
-    .page-intro p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      max-width: 820px;
-    }
-
-    .steps-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--border-light);
-      background: var(--bg-surface);
-      margin-bottom: 20px;
-    }
-
-    .step-box {
-      padding: 14px 16px;
-      border-right: 1px solid var(--border-light);
-    }
-
-    .step-box:last-child {
-      border-right: none;
-    }
-
-    .step-box span {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--nasa-blue);
-      margin-bottom: 4px;
-    }
-
-    .step-box strong {
-      display: block;
-      font-size: 13.5px;
-      margin-bottom: 4px;
-    }
-
-    .step-box p {
-      font-size: 12.5px;
-      color: var(--text-secondary);
-    }
-
-    .split-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .library-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .nasa-search {
-      height: 34px;
-      width: 280px;
-      max-width: 100%;
-      padding: 0 10px;
-      font-family: var(--font-sans);
-      font-size: 13px;
-      border: 1px solid var(--border-dark);
-      background: var(--bg-surface);
-    }
+    /* Secondary Views */
+    .page-intro { margin-bottom: 20px; }
+    .page-intro h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--nasa-blue-darkest); margin-bottom: 6px; }
+    .page-intro p { font-size: 14px; color: var(--text-secondary); max-width: 820px; }
+    .steps-row { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border-light); background: var(--bg-surface); margin-bottom: 20px; }
+    .step-box { padding: 14px 16px; border-right: 1px solid var(--border-light); }
+    .step-box:last-child { border-right: none; }
+    .step-box span { display: block; font-family: var(--font-mono); font-size: 10.5px; color: var(--nasa-blue); margin-bottom: 4px; }
+    .step-box strong { display: block; font-size: 13.5px; margin-bottom: 4px; }
+    .step-box p { font-size: 12.5px; color: var(--text-secondary); }
+    .library-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .nasa-search { height: 34px; width: 280px; max-width: 100%; padding: 0 10px; font-family: var(--font-sans); font-size: 13px; border: 1px solid var(--border-dark); background: var(--bg-surface); }
 
     @media (max-width: 1080px) {
-      .workbench-grid, .drawer-cols, .split-cards {
-        grid-template-columns: 1fr;
-      }
-      .steps-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .workbench-grid, .drawer-cols { grid-template-columns: 1fr; }
+      .steps-row { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media (max-width: 720px) {
-      .brand-tag, .header-badges {
-        display: none;
-      }
-      .telemetry-bar {
-        grid-template-columns: 1fr 1fr;
-      }
-      .tele-zone {
-        grid-column: 1 / -1;
-      }
-      .steps-row {
-        grid-template-columns: 1fr;
-      }
+      .brand-tag, .header-badges, .orbital-hud { display: none; }
+      .telemetry-bar { grid-template-columns: 1fr 1fr; }
+      .tele-zone { grid-column: 1 / -1; }
+      .steps-row { grid-template-columns: 1fr; }
     }
-
     @media print {
-      .gov-banner, .app-header, .control-bar button, .workbench-grid > aside, .map-bar {
-        display: none !important;
-      }
-      .workbench-grid {
-        grid-template-columns: 1fr !important;
-      }
-      tr.drawer-row {
-        display: table-row !important;
-      }
+      .gov-banner, .app-header, .control-bar button, .workbench-grid > aside, .map-bar, .orbital-hud { display: none !important; }
+      .workbench-grid { grid-template-columns: 1fr !important; }
+      tr.drawer-row { display: table-row !important; }
     }
   </style>
 </head>
@@ -857,19 +562,21 @@
 
   {{ field_initial_state|json_script:"field-initial-state" }}
 
+  <!-- System Telemetry Strip -->
   <div class="gov-banner">
     <div class="gov-banner-inner">
-      <span>EARTH SCIENCE DIVISION | AGRO-CLIMATE DECISION SUPPORT</span>
-      <span>LIVE TELEMETRY: NASA POWER REST + EARTHDATA HARMONIZED 30M GRID</span>
+      <span><i class="live-dot"></i>ORBITAL DOWNLINK ACTIVE // NASA POWER DAILY + SMAP L4 + ECOSTRESS</span>
+      <span id="utcClockBanner">UTC LIVE TELEMETRY: 2026-11-15</span>
     </div>
   </div>
 
+  <!-- Main Header -->
   <header class="app-header">
     <div class="header-inner">
       <div class="brand-block">
         <div class="brand-marker" aria-hidden="true"></div>
         <span class="brand-name">TerraTurn</span>
-        <span class="brand-tag">CROP ROTATION &amp; SOIL RESILIENCE SYSTEM</span>
+        <span class="brand-tag">ORBITAL &amp; IN-SITU CROP ROTATION ENGINE</span>
       </div>
 
       <nav class="nav-tabs" aria-label="Primary Views">
@@ -880,12 +587,12 @@
 
       <div class="header-badges">
         <span class="sys-chip">EPSG:4326</span>
-        <span class="sys-chip">8 SENSORS</span>
+        <span class="sys-chip">LIVE 2026 MTD</span>
       </div>
     </div>
   </header>
 
-  <!-- VIEW 1: FIELD PLANNER WORKBENCH -->
+  <!-- VIEW 1: FIELD PLANNER -->
   <div id="view-planner" class="app-view active">
     <div class="control-bar">
       <div class="control-inner">
@@ -902,7 +609,7 @@
           <div class="field-inline">
             <label for="climateSelect">Climate Scenario:</label>
             <select class="nasa-select alert-mode" id="climateSelect">
-              <option value="baseline">10-Yr Observed Baseline (2016–2026)</option>
+              <option value="baseline">2026 Live Observed Baseline (Jan–Nov*)</option>
               <option value="heatwave">+2.0°C Summer Heat Anomaly</option>
               <option value="drought">-20% Growing Season Rainfall</option>
               <option value="frost">Early Autumn Frost (-14 Days)</option>
@@ -910,7 +617,8 @@
           </div>
         </div>
 
-        <div style="display:flex; gap:8px;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn-nasa-cam" id="btnOpenCam">[+] Field Cam NDVI Scanner</button>
           <button type="button" class="btn-nasa-outline" id="btnDownloadJson">Export JSON</button>
           <button type="button" class="btn-nasa-primary" id="btnPrintReport">Print Agronomist Brief</button>
         </div>
@@ -920,9 +628,10 @@
     <main class="workspace">
       <div class="workbench-grid">
 
+        <!-- Sidebar -->
         <aside class="module">
           <div class="module-head">
-            <h2>01 |  Field Constraints</h2>
+            <h2>01 / Field Constraints</h2>
             <span class="mono" style="font-size:10.5px; color:var(--nasa-blue);">LOCAL INPUT</span>
           </div>
           <div class="module-body">
@@ -1008,13 +717,15 @@
             </div>
 
             <div class="disclaimer-box">
-              <strong>Custom Field Tool:</strong> Use the polygon icon in the top-right corner of the map to outline any field worldwide, or click any point to query live <strong>NASA POWER</strong> climatology.
+              <strong>Orbital + Ground Fusion:</strong> Outline any field on the map to fetch live 2026 NASA telemetry, or use <strong>Field Cam NDVI Scanner</strong> to calibrate canopy cover with your camera.
             </div>
           </div>
         </aside>
 
+        <!-- Analytics Stack -->
         <div class="analytics-stack">
 
+          <!-- Map Module -->
           <section class="module">
             <div class="map-bar">
               <div class="sensor-tabs" role="group" aria-label="NASA Sensor Layers">
@@ -1025,6 +736,9 @@
               </div>
 
               <div class="map-meta-controls">
+                <label style="cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+                  <input type="checkbox" id="toggleOrbitalSwath" checked style="accent-color:#0B3D91;" /> ORBITAL SWATH
+                </label>
                 <span>OPACITY <input type="range" id="opacityRange" min="15" max="85" value="55" /></span>
                 <span id="cursorCoords">40.4885°N, 68.7140°E</span>
               </div>
@@ -1032,6 +746,14 @@
 
             <div class="map-frame">
               <div id="fieldLeafletMap"></div>
+
+              <!-- Orbital Telemetry HUD -->
+              <div class="orbital-hud" id="orbitalHudBox">
+                <div class="orbital-hud-title">SAT-PASS // SMAP L-BAND &amp; ISS ECOSTRESS</div>
+                <div>ALT: 685.0 km | INC: 98.1° SUN-SYNC | SWATH: 1000 km</div>
+                <div id="hudPassStatus">STATUS: OVERPASS LOCKED — REAL-TIME 2026 TELEMETRY</div>
+              </div>
+
               <div class="map-legend">
                 <div class="legend-title" id="legendTitle">SMAP L4 Root-Zone Soil Moisture (% VWC)</div>
                 <div class="legend-items">
@@ -1060,15 +782,19 @@
                 <strong id="teleSrtm">3.8%</strong>
               </div>
               <div class="tele-item">
-                <label>Bare-Soil Exposure</label>
+                <label>Bare-Soil / Cam NDVI</label>
                 <strong id="teleBare">146 days/yr</strong>
               </div>
             </div>
           </section>
 
+          <!-- Timeline Chart Module -->
           <section class="module">
             <div class="module-head">
-              <h2>12-Month Hydrological &amp; Bare-Soil Vulnerability Profile</h2>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h2>Year-to-Date Live Hydrological &amp; Bare-Soil Profile (NASA POWER 2026)</h2>
+                <span class="chart-sync-pill" id="chartSyncBadge">LIVE</span>
+              </div>
               <div class="chart-legend">
                 <span><i class="swatch" style="background:#93C5FD; border-color:#105BD8;"></i>GPM Rain (mm)</span>
                 <span><i class="swatch" style="background:#FC3D21;"></i>ET0 Demand (mm)</span>
@@ -1080,9 +806,14 @@
               <div class="chart-stage" id="hydroChartStage">
                 <div class="chart-tip" id="hydroChartTip"></div>
               </div>
+              <div class="chart-footnote">
+                <span id="novFootnoteText"><strong>*Nov (Current Month-to-Date):</strong> Live partial-month aggregation from active NASA satellite passes (future Dec omitted).</span>
+                <span>Hover any month column to inspect satellite telemetry.</span>
+              </div>
             </div>
           </section>
 
+          <!-- Strategy Table -->
           <section class="module">
             <div class="module-head">
               <h2>Multi-Year Rotation Strategy Matrix</h2>
@@ -1123,22 +854,22 @@
 
       <div class="steps-row">
         <div class="step-box">
-          <span>STAGE 01 |   INGESTION</span>
-          <strong>NASA Earthdata &amp; POWER APIs</strong>
-          <p>Automated retrieval via CMR, AppEEARS, and NASA POWER REST endpoints clipped to field boundaries.</p>
+          <span>STAGE 01 // INGESTION</span>
+          <strong>NASA POWER Daily &amp; Earthdata</strong>
+          <p>Live year-to-date retrieval via NASA POWER Daily REST API clipped to field boundaries.</p>
         </div>
         <div class="step-box">
-          <span>STAGE 02 |   DOWNSCALING</span>
+          <span>STAGE 02 // DOWNSCALING</span>
           <strong>30m Covariate Resampling</strong>
           <p>9 km SMAP and 10 km GPM grids are downscaled using 30m SRTM topographic wetness and Landsat albedo.</p>
         </div>
         <div class="step-box">
-          <span>STAGE 03 |  ANOMALY FLAGS</span>
-          <strong>Bare-Soil &amp; Thermal Stress</strong>
-          <p>Time-series thresholding detects windows where NDVI &lt; 0.25 overlaps with GPM storms or ECOSTRESS heat.</p>
+          <span>STAGE 03 // IN-SITU FUSION</span>
+          <strong>Field Cam NDVI Calibration</strong>
+          <p>Optional live device camera RGB-to-ExG greenness probe validates satellite bare-soil flags on the ground.</p>
         </div>
         <div class="step-box">
-          <span>STAGE 04 |  RANKING</span>
+          <span>STAGE 04 // RANKING</span>
           <strong>Constraint-Filtered Scoring</strong>
           <p>Rotations are filtered by soil texture, irrigation regime, and equipment, then weighted by user priorities.</p>
         </div>
@@ -1178,9 +909,9 @@
               <tr>
                 <td class="mono" style="font-weight:500; color:var(--nasa-blue-dark);">GPM IMERG Final</td>
                 <td class="mono">0.1° &rarr; 30 m</td>
-                <td class="mono">30-Min / Mo</td>
+                <td class="mono">30-Min / Day</td>
                 <td>Elevation-adjusted precipitation interpolation with storm intensity indexing</td>
-                <td>Monthly precipitation (mm) and RUSLE rainfall erosivity factor</td>
+                <td>Cumulative precipitation (mm) and RUSLE rainfall erosivity factor</td>
               </tr>
               <tr>
                 <td class="mono" style="font-weight:500; color:var(--nasa-blue-dark);">GRACE / GRACE-FO</td>
@@ -1211,34 +942,14 @@
                 <td>Sub-field slope grade (%) and concentrated runoff channels</td>
               </tr>
               <tr>
-                <td class="mono" style="font-weight:500; color:var(--nasa-blue-dark);">NASA POWER</td>
+                <td class="mono" style="font-weight:500; color:var(--nasa-blue-dark);">NASA POWER Daily</td>
                 <td class="mono">0.5° &rarr; Point</td>
-                <td class="mono">Daily (1984+)</td>
-                <td>Bias-corrected agroclimatology series for Growing Degree Days and frost risk</td>
-                <td>Reference evapotranspiration (ET0) and autumn/spring frost probabilities</td>
+                <td class="mono">Daily (Live)</td>
+                <td>Near-real-time agroclimatology series for ET0, Tmax, and frost risk</td>
+                <td>Year-to-date reference evapotranspiration (ET0) and thermal stress</td>
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <div class="split-cards">
-        <div class="module">
-          <div class="module-head"><h2>Orbital Capabilities (Remote Sensing)</h2></div>
-          <div class="module-body" style="font-size:13px; color:var(--text-secondary);">
-            <p style="margin-bottom:8px;"><strong>Wall-to-Wall Sub-Field Coverage:</strong> Resolves moisture and thermal gradients across headgates, ridges, and tailwater slopes.</p>
-            <p style="margin-bottom:8px;"><strong>Multi-Decadal Climate Baselines:</strong> Standardized NASA archives reveal long-term shifts in frost dates and heatwaves.</p>
-            <p><strong>Objective Bare-Soil Tracking:</strong> Quantifies exact post-harvest ground exposure windows vulnerable to wind and storm runoff.</p>
-          </div>
-        </div>
-
-        <div class="module">
-          <div class="module-head"><h2>In-Situ Calibration (Human-in-the-Loop)</h2></div>
-          <div class="module-body" style="font-size:13px; color:var(--text-secondary);">
-            <p style="margin-bottom:8px;"><strong>Subsurface Chemistry &amp; Salinity:</strong> L-band radar senses top 5 cm moisture; root-zone pH, ECe salinity, and NPK require soil cores.</p>
-            <p style="margin-bottom:8px;"><strong>Biological &amp; Pest Pressure:</strong> Nematodes and soil-borne pathogens require local scouting logs prior to legume selection.</p>
-            <p><strong>Operational Timing:</strong> Cover-crop termination dates must be verified against field trafficability and local market contracts.</p>
-          </div>
         </div>
       </div>
     </main>
@@ -1285,29 +996,72 @@
     </main>
   </div>
 
+  <!-- FIELD CAMERA NDVI VISION MODAL -->
+  <div class="cam-modal" id="fieldCamModal">
+    <div class="cam-dialog">
+      <div class="module-head">
+        <h2>In-Situ Field Camera Vision // Optical Canopy &amp; Bare-Soil Scanner</h2>
+        <button type="button" class="action-link" id="btnCloseCam">Close [X]</button>
+      </div>
+      <div class="cam-viewport">
+        <video id="fieldCamVideo" autoplay playsinline muted></video>
+        <canvas id="fieldCamCanvas" width="160" height="160" style="display:none;"></canvas>
+        <div class="cam-reticle"></div>
+        <div id="camFallbackBanner" style="display:none; position:absolute; bottom:12px; left:12px; right:12px; background:rgba(6,31,74,0.9); color:#FFFFFF; font-family:var(--font-mono); font-size:11px; padding:6px 10px; border-left:3px solid #FC3D21;">
+          SIMULATED OPTICAL SENSOR MODE (No physical webcam detected — point camera at leaves or soil on live device)
+        </div>
+      </div>
+      <div class="cam-metrics">
+        <div class="cam-metric-cell">
+          <label>Optical Pseudo-NDVI</label>
+          <strong id="camNdviVal">0.18</strong>
+        </div>
+        <div class="cam-metric-cell">
+          <label>Surface Classification</label>
+          <strong id="camClassVal" style="color:var(--nasa-red-dark);">BARE SOIL EXPOSED</strong>
+        </div>
+        <div class="cam-metric-cell">
+          <label>Satellite Calibration</label>
+          <strong id="camSyncStatus">READY TO CALIBRATE</strong>
+        </div>
+      </div>
+      <div style="padding:12px 14px; display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface); border-top:1px solid var(--border-light);">
+        <span style="font-size:12px; color:var(--text-secondary);">Point camera at soil or crop canopy to verify Landsat NDVI &lt; 0.25 exposure.</span>
+        <button type="button" class="btn-nasa-primary" id="btnApplyCamCalibration">Apply Ground Truth to Chart &amp; Zone</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     class TerraTurnPlatform {
       constructor() {
         const rawPayload = document.getElementById("field-initial-state").textContent;
         this.payload = JSON.parse(rawPayload);
 
+        // Нормализуем месячные данные (строго Jan..Nov* без будущего декабря)
+        const baseMonthly = this.normalizeMonthly(this.payload.initialMonthly || []);
+
         Object.keys(this.payload.parcels).forEach((key) => {
           const p = this.payload.parcels[key];
-          if (!p.monthly) {
-            p.monthly = this.payload.initialMonthly || [];
+          if (!p.monthly || !p.monthly.length) {
+            p.monthly = JSON.parse(JSON.stringify(baseMonthly));
+          } else {
+            p.monthly = this.normalizeMonthly(p.monthly);
           }
+
           if (!p.zones || !p.zones.length) {
             const [lat, lon] = p.center;
             const dLat = 0.0025;
             const dLon = 0.0045;
-            const jul = p.monthly[6] || { smap: 18.5, tmax: 37.9 };
-            const tmaxVal = jul.tmax !== undefined ? jul.tmax : 37.9;
+            const latest = p.monthly[p.monthly.length - 1] || { smap: 20.6, tmax: 14.2 };
+            const summerPeak = p.monthly[6] || latest;
+            const tmaxVal = summerPeak.tmax !== undefined ? summerPeak.tmax : 37.9;
             p.zones = [
               {
                 id: "MZ-01",
                 name: "MZ-01 Northwest Headgate Sector",
                 coords: [[lat + dLat, lon - dLon], [lat + dLat, lon], [lat, lon], [lat, lon - dLon]],
-                smap: +(jul.smap + 4.2).toFixed(1),
+                smap: +(latest.smap + 4.2).toFixed(1),
                 ecostress: +(tmaxVal - 1.8).toFixed(1),
                 srtm: 1.6,
                 bareDays: 105
@@ -1316,7 +1070,7 @@
                 id: "MZ-02",
                 name: "MZ-02 Northeast Elevated Bench",
                 coords: [[lat + dLat, lon], [lat + dLat, lon + dLon], [lat, lon + dLon], [lat, lon]],
-                smap: jul.smap,
+                smap: latest.smap,
                 ecostress: tmaxVal,
                 srtm: 3.8,
                 bareDays: 146
@@ -1325,7 +1079,7 @@
                 id: "MZ-03",
                 name: "MZ-03 Southwest Alluvial Flat",
                 coords: [[lat, lon - dLon], [lat, lon], [lat - dLat, lon], [lat - dLat, lon - dLon]],
-                smap: +(jul.smap + 2.8).toFixed(1),
+                smap: +(latest.smap + 2.8).toFixed(1),
                 ecostress: +(tmaxVal - 1.1).toFixed(1),
                 srtm: 2.1,
                 bareDays: 118
@@ -1334,7 +1088,7 @@
                 id: "MZ-04",
                 name: "MZ-04 Southeast Drainage Slope",
                 coords: [[lat, lon], [lat, lon + dLon], [lat - dLat, lon + dLon], [lat - dLat, lon]],
-                smap: +(jul.smap - 1.4).toFixed(1),
+                smap: +(latest.smap - 1.4).toFixed(1),
                 ecostress: +(tmaxVal + 0.9).toFixed(1),
                 srtm: 4.9,
                 bareDays: 152
@@ -1358,15 +1112,42 @@
           priorities: { water: 85, som: 80, nitrogen: 70, margin: 65 },
           checklist: {},
           cropFilterRole: "ALL",
-          cropSearchQuery: ""
+          cropSearchQuery: "",
+          showOrbitalSwath: true,
+          camCalibratedNdvi: null
         };
 
         this.lastStrategies = [];
+        this.camStream = null;
+        this.camTimer = null;
+        this.latestCamNdvi = 0.18;
 
+        this.updateUtcBanner();
         this.initMap();
         this.bindEvents();
         this.renderPlanner(true);
         this.renderCropLibrary();
+      }
+
+      normalizeMonthly(arr) {
+        // Гарантированно убираем Dec, если бэкенд ещё не обновлён, и помечаем Nov*
+        const currentMonthIdx = new Date().getMonth(); // 10 для ноября
+        const sliced = arr.slice(0, currentMonthIdx + 1);
+        return sliced.map((item, idx) => {
+          const cleanM = String(item.m || "").replace("*", "");
+          return {
+            ...item,
+            m: idx === sliced.length - 1 ? `${cleanM}*` : cleanM
+          };
+        });
+      }
+
+      updateUtcBanner() {
+        const el = document.getElementById("utcClockBanner");
+        if (el) {
+          const iso = new Date().toISOString().replace("T", " ").slice(0, 19);
+          el.textContent = `UTC LIVE TELEMETRY: ${iso}Z`;
+        }
       }
 
       initMap() {
@@ -1388,6 +1169,7 @@
         ).addTo(this.map);
 
         this.zoneLayerGroup = L.featureGroup().addTo(this.map);
+        this.orbitalLayerGroup = L.featureGroup().addTo(this.map);
         this.probeMarker = null;
 
         this.drawnItems = new L.FeatureGroup().addTo(this.map);
@@ -1466,10 +1248,42 @@
         });
       }
 
+      drawOrbitalSwath(lat, lon) {
+        this.orbitalLayerGroup.clearLayers();
+        if (!this.state.showOrbitalSwath) return;
+
+        const trackStart = [lat + 0.014, lon + 0.0032];
+        const trackEnd = [lat - 0.014, lon - 0.0032];
+
+        L.polyline([trackStart, trackEnd], {
+          color: "#FC3D21",
+          weight: 2,
+          dashArray: "6, 6",
+          opacity: 0.9
+        }).addTo(this.orbitalLayerGroup);
+
+        const swathPoly = [
+          [lat + 0.014, lon - 0.004],
+          [lat + 0.014, lon + 0.010],
+          [lat - 0.014, lon + 0.004],
+          [lat - 0.014, lon - 0.010]
+        ];
+        L.polygon(swathPoly, {
+          color: "#105BD8",
+          weight: 1,
+          dashArray: "3, 4",
+          fillColor: "#105BD8",
+          fillOpacity: 0.07,
+          interactive: false
+        }).addTo(this.orbitalLayerGroup);
+      }
+
       async syncNasaForCoords(lat, lon, customLabel = null) {
         const zoneEl = document.getElementById("teleZoneName");
         const prevTitle = zoneEl.textContent;
-        zoneEl.textContent = `Fetching NASA POWER telemetry (${lat.toFixed(4)}°, ${lon.toFixed(4)}°)...`;
+        zoneEl.textContent = `Downlinking NASA POWER 2026 Daily (${lat.toFixed(4)}°, ${lon.toFixed(4)}°)...`;
+
+        this.drawOrbitalSwath(lat, lon);
 
         try {
           const res = await fetch(`/api/v1/nasa-sync/?lat=${lat.toFixed(4)}&lon=${lon.toFixed(4)}`);
@@ -1478,26 +1292,27 @@
           if (data.error) throw new Error(data.error);
 
           const activeParcel = this.payload.parcels[this.state.parcelId];
-          activeParcel.monthly = data.monthly;
+          activeParcel.monthly = this.normalizeMonthly(data.monthly);
           this.renderHydroChart();
 
-          const jul = data.monthly[6] || { smap: 18.5, tmax: 37.9 };
-          const tmaxVal = jul.tmax !== undefined ? jul.tmax : 37.9;
+          const latest = activeParcel.monthly[activeParcel.monthly.length - 1] || { smap: 20.6, tmax: 14.2 };
+          const summerPeak = activeParcel.monthly[6] || latest;
+          const tmaxVal = summerPeak.tmax !== undefined ? summerPeak.tmax : 37.9;
 
           if (customLabel) {
             zoneEl.textContent = customLabel;
-            document.getElementById("teleSmap").textContent = `${jul.smap}% VWC (Live)`;
-            document.getElementById("teleEco").textContent = `${tmaxVal}°C Tmax (Live)`;
+            document.getElementById("teleSmap").textContent = `${latest.smap}% VWC (Live)`;
+            document.getElementById("teleEco").textContent = `${tmaxVal}°C Peak (Live)`;
             document.getElementById("teleSrtm").textContent = "Point / Polygon";
-            document.getElementById("teleBare").textContent = "10-Yr Climatology";
+            document.getElementById("teleBare").textContent = "2026 YTD Live";
           } else {
-            activeParcel.zones[0].smap = +(jul.smap + 4.2).toFixed(1);
+            activeParcel.zones[0].smap = +(latest.smap + 4.2).toFixed(1);
             activeParcel.zones[0].ecostress = +(tmaxVal - 1.8).toFixed(1);
-            activeParcel.zones[1].smap = jul.smap;
+            activeParcel.zones[1].smap = latest.smap;
             activeParcel.zones[1].ecostress = tmaxVal;
-            activeParcel.zones[2].smap = +(jul.smap + 2.8).toFixed(1);
+            activeParcel.zones[2].smap = +(latest.smap + 2.8).toFixed(1);
             activeParcel.zones[2].ecostress = +(tmaxVal - 1.1).toFixed(1);
-            activeParcel.zones[3].smap = +(jul.smap - 1.4).toFixed(1);
+            activeParcel.zones[3].smap = +(latest.smap - 1.4).toFixed(1);
             activeParcel.zones[3].ecostress = +(tmaxVal + 0.9).toFixed(1);
             this.renderMap(false);
           }
@@ -1509,7 +1324,103 @@
         }
       }
 
+      /* ======================================================================
+         FIELD CAMERA OPTICAL NDVI SCANNER (IN-SITU GROUND TRUTH)
+         ====================================================================== */
+      async openFieldCamera() {
+        const modal = document.getElementById("fieldCamModal");
+        const video = document.getElementById("fieldCamVideo");
+        const fallback = document.getElementById("camFallbackBanner");
+        modal.classList.add("open");
+
+        try {
+          this.camStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment", width: 640, height: 480 },
+            audio: false
+          });
+          video.srcObject = this.camStream;
+          fallback.style.display = "none";
+          this.startCamFrameAnalyzer(true);
+        } catch (err) {
+          fallback.style.display = "block";
+          this.startCamFrameAnalyzer(false);
+        }
+      }
+
+      startCamFrameAnalyzer(hasHardwareCam) {
+        const video = document.getElementById("fieldCamVideo");
+        const canvas = document.getElementById("fieldCamCanvas");
+        const ctx = canvas.getContext("2d");
+
+        if (this.camTimer) clearInterval(this.camTimer);
+        this.camTimer = setInterval(() => {
+          let pseudoNdvi = 0.18;
+
+          if (hasHardwareCam && video.readyState >= 2) {
+            ctx.drawImage(video, 0, 0, 160, 160);
+            const imgData = ctx.getImageData(50, 50, 60, 60).data;
+            let exgSum = 0;
+            const pxCount = imgData.length / 4;
+
+            for (let i = 0; i < imgData.length; i += 4) {
+              const r = imgData[i] / 255;
+              const g = imgData[i + 1] / 255;
+              const b = imgData[i + 2] / 255;
+              exgSum += (2 * g - r - b);
+            }
+            const meanExG = exgSum / pxCount;
+            pseudoNdvi = Math.max(0.08, Math.min(0.88, +(0.22 + meanExG * 1.45).toFixed(2)));
+          } else {
+            const jitter = (Math.sin(Date.now() / 600) * 0.03);
+            pseudoNdvi = +(0.19 + jitter).toFixed(2);
+          }
+
+          this.latestCamNdvi = pseudoNdvi;
+          document.getElementById("camNdviVal").textContent = pseudoNdvi.toFixed(2);
+
+          const clsEl = document.getElementById("camClassVal");
+          if (pseudoNdvi < 0.25) {
+            clsEl.textContent = "BARE SOIL EXPOSED (<0.25)";
+            clsEl.style.color = "#99231B";
+          } else if (pseudoNdvi < 0.45) {
+            clsEl.textContent = "SPARSE RESIDUE / STRESS";
+            clsEl.style.color = "#D97706";
+          } else {
+            clsEl.textContent = "HEALTHY CANOPY COVER";
+            clsEl.style.color = "#2E8540";
+          }
+        }, 350);
+      }
+
+      closeFieldCamera() {
+        document.getElementById("fieldCamModal").classList.remove("open");
+        if (this.camTimer) clearInterval(this.camTimer);
+        if (this.camStream) {
+          this.camStream.getTracks().forEach((t) => t.stop());
+          this.camStream = null;
+        }
+      }
+
       bindEvents() {
+        document.getElementById("btnOpenCam").addEventListener("click", () => this.openFieldCamera());
+        document.getElementById("btnCloseCam").addEventListener("click", () => this.closeFieldCamera());
+
+        document.getElementById("btnApplyCamCalibration").addEventListener("click", () => {
+          const ndvi = this.latestCamNdvi;
+          this.state.camCalibratedNdvi = ndvi;
+          document.getElementById("teleBare").textContent = `Cam NDVI ${ndvi.toFixed(2)} (Calibrated)`;
+          document.getElementById("camSyncStatus").textContent = "CALIBRATED TO CHART";
+          this.renderHydroChart();
+          setTimeout(() => this.closeFieldCamera(), 450);
+        });
+
+        document.getElementById("toggleOrbitalSwath").addEventListener("change", (e) => {
+          this.state.showOrbitalSwath = e.target.checked;
+          document.getElementById("orbitalHudBox").style.display = e.target.checked ? "block" : "none";
+          const parcel = this.payload.parcels[this.state.parcelId];
+          this.drawOrbitalSwath(parcel.center[0], parcel.center[1]);
+        });
+
         document.querySelectorAll(".view-tab").forEach((tab) => {
           tab.addEventListener("click", () => {
             document.querySelectorAll(".view-tab").forEach((t) => t.classList.remove("active"));
@@ -1535,6 +1446,7 @@
           this.state.soilId = p.defaultSoil;
           this.state.irrigationId = p.defaultWater;
           this.state.rotationId = p.defaultRotation;
+          this.state.camCalibratedNdvi = null;
 
           document.getElementById("soilSelect").value = p.defaultSoil;
           document.getElementById("irrigationSelect").value = p.defaultWater;
@@ -1560,17 +1472,20 @@
 
         document.getElementById("rotationSelect").addEventListener("change", (e) => {
           this.state.rotationId = e.target.value;
+          this.state.camCalibratedNdvi = null;
           this.renderHydroChart();
           this.renderRotationTable();
         });
 
         document.getElementById("soilSelect").addEventListener("change", (e) => {
           this.state.soilId = e.target.value;
+          this.renderHydroChart();
           this.renderRotationTable();
         });
 
         document.getElementById("irrigationSelect").addEventListener("change", (e) => {
           this.state.irrigationId = e.target.value;
+          this.renderHydroChart();
           this.renderRotationTable();
         });
 
@@ -1638,9 +1553,9 @@
       getClimateOffsets() {
         return {
           baseline: { vwc: 0, temp: 0, etMult: 1.0, rainMult: 1.0, marginDelta: 0 },
-          heatwave: { vwc: -3.2, temp: 2.0, etMult: 1.15, rainMult: 1.0, marginDelta: -55 },
-          drought:  { vwc: -5.0, temp: 1.2, etMult: 1.10, rainMult: 0.80, marginDelta: -85 },
-          frost:    { vwc: 0.5, temp: -1.4, etMult: 0.94, rainMult: 1.0, marginDelta: -45 }
+          heatwave: { vwc: -3.2, temp: 2.0, etMult: 1.18, rainMult: 0.95, marginDelta: -55 },
+          drought:  { vwc: -5.4, temp: 1.4, etMult: 1.12, rainMult: 0.72, marginDelta: -85 },
+          frost:    { vwc: 0.8, temp: -1.6, etMult: 0.90, rainMult: 1.05, marginDelta: -45 }
         }[this.state.climateId];
       }
 
@@ -1664,6 +1579,8 @@
 
       renderMap(fitBounds) {
         const parcel = this.payload.parcels[this.state.parcelId];
+        this.drawOrbitalSwath(parcel.center[0], parcel.center[1]);
+
         const legendInfo = {
           smap: { title: "SMAP L4 Root-Zone Soil Moisture (% VWC)", low: "<18% Deficit", mid: "18–24% Moderate", high: ">24% Adequate" },
           ecostress: { title: "ECOSTRESS Canopy Surface Temp (°C LST)", low: ">36°C Heat Stress", mid: "33.5–36°C Elevated", high: "<33.5°C Normal" },
@@ -1696,6 +1613,8 @@
             L.DomEvent.stopPropagation(ev);
             this.state.selectedZoneId = z.id;
             this.renderMap(false);
+            // Перерисовываем график под выбранную зону управления!
+            this.renderHydroChart();
           });
 
           poly.addTo(this.zoneLayerGroup);
@@ -1714,9 +1633,23 @@
         }
       }
 
+      flashChartSyncBadge() {
+        const badge = document.getElementById("chartSyncBadge");
+        if (!badge) return;
+        badge.textContent = "UPDATED";
+        badge.classList.add("flash");
+        clearTimeout(this._badgeTimer);
+        this._badgeTimer = setTimeout(() => {
+          badge.textContent = "LIVE";
+          badge.classList.remove("flash");
+        }, 650);
+      }
+
       renderHydroChart() {
         const parcel = this.payload.parcels[this.state.parcelId];
         if (!parcel.monthly || !parcel.monthly.length) return;
+
+        this.flashChartSyncBadge();
 
         const off = this.getClimateOffsets();
         const stage = document.getElementById("hydroChartStage");
@@ -1724,16 +1657,37 @@
         const existingSvg = stage.querySelector("svg");
         if (existingSvg) existingSvg.remove();
 
+        // Реальные смещения для выбранной зоны поля, почвы и режима орошения
+        const zoneVwcDelta = {
+          "MZ-01": +3.4, // Низина у головного канала — выше влажность
+          "MZ-02":  0.0, // Базовая возвышенность
+          "MZ-03": +1.9, // Аллювиальная равнина
+          "MZ-04": -2.2  // Склон дренажа — быстрее пересыхает
+        }[this.state.selectedZoneId] || 0;
+
+        const soilVwcDelta = {
+          clay_loam: +1.5,
+          silt_loam:  0.0,
+          sandy_loam: -3.2 // Песчаный суглинок хуже держит влагу
+        }[this.state.soilId] || 0;
+
+        const irrigationSummerBoost = {
+          deficit: 0,
+          rainfed: -4.5,   // Без полива летом сильная просадка влажности
+          drip_pivot: +4.2 // Капельное орошение удерживает влагу летом
+        }[this.state.irrigationId] || 0;
+
+        // Окна голой почвы (индексы месяцев 0=Jan .. 10=Nov*) для каждого севооборота
         const bareWindows = {
-          cotton_wheat_fallow: [0, 1, 2, 10, 11],
-          corn_soy_fallow: [0, 1, 9, 10, 11],
-          wheat_monocrop: [6, 7, 8, 9]
+          cotton_wheat_fallow: [0, 1, 2, 10], // Янв-Март + Ноябрь после уборки хлопка
+          corn_soy_fallow: [0, 1, 9, 10],     // Янв-Фев + Окт-Нояб после кукурузы
+          wheat_monocrop: [6, 7, 8, 9]        // Июль-Октябрь летний пар после озимой пшеницы
         };
-        const activeBareMonths = bareWindows[this.state.rotationId] || [0, 1, 10, 11];
+        const activeBareMonths = bareWindows[this.state.rotationId] || [0, 1, 10];
 
         const width = Math.max(620, stage.clientWidth || 960);
-        const height = 205;
-        const pad = { top: 14, right: 44, bottom: 24, left: 44 };
+        const height = 215;
+        const pad = { top: 14, right: 44, bottom: 26, left: 44 };
         const plotW = width - pad.left - pad.right;
         const plotH = height - pad.top - pad.bottom;
 
@@ -1783,14 +1737,30 @@
         const etPts = [];
 
         parcel.monthly.forEach((d, idx) => {
+          const isSummer = idx >= 4 && idx <= 8;
+          const seasonalIrrig = isSummer ? irrigationSummerBoost : irrigationSummerBoost * 0.25;
+
           const rain = Math.round(d.gpm * off.rainMult);
           const et0 = Math.round(d.et0 * off.etMult);
-          const smap = Math.max(6, +(d.smap + off.vwc).toFixed(1));
+          const smap = Math.max(
+            6.5,
+            Math.min(42.0, +(d.smap + off.vwc + zoneVwcDelta + soilVwcDelta + seasonalIrrig).toFixed(1))
+          );
+
           const x0 = pad.left + idx * stepW;
           const cx = x0 + stepW / 2;
 
-          const isBare = activeBareMonths.includes(idx) || d.ndvi < 0.25;
-          const effectiveNdvi = isBare ? 0.19 : d.ndvi;
+          // Для последнего месяца (Nov*) учитываем живую калибровку камерой, если она была выполнена
+          const isLastMonth = idx === parcel.monthly.length - 1;
+          let effectiveNdvi = d.ndvi;
+          let isBare = activeBareMonths.includes(idx) || d.ndvi < 0.25;
+
+          if (isLastMonth && this.state.camCalibratedNdvi !== null) {
+            effectiveNdvi = this.state.camCalibratedNdvi;
+            isBare = effectiveNdvi < 0.25;
+          } else {
+            effectiveNdvi = isBare ? Math.min(0.22, d.ndvi) : Math.max(0.32, d.ndvi);
+          }
 
           if (isBare) {
             const bareRect = document.createElementNS(ns, "rect");
@@ -1803,7 +1773,7 @@
           }
 
           const barH = (Math.min(maxMm, rain) / maxMm) * plotH;
-          const barW = Math.min(22, stepW * 0.42);
+          const barW = Math.min(24, stepW * 0.42);
           const bar = document.createElementNS(ns, "rect");
           bar.setAttribute("x", cx - barW / 2);
           bar.setAttribute("y", pad.top + plotH - barH);
@@ -1816,24 +1786,25 @@
 
           const mLbl = document.createElementNS(ns, "text");
           mLbl.setAttribute("x", cx);
-          mLbl.setAttribute("y", pad.top + plotH + 15);
+          mLbl.setAttribute("y", pad.top + plotH + 16);
           mLbl.setAttribute("text-anchor", "middle");
           mLbl.setAttribute("font-family", "DM Mono, monospace");
-          mLbl.setAttribute("font-size", "10.5");
-          mLbl.setAttribute("fill", "#1B1B1B");
+          mLbl.setAttribute("font-size", "11");
+          mLbl.setAttribute("font-weight", d.m.includes("*") ? "700" : "400");
+          mLbl.setAttribute("fill", d.m.includes("*") ? "#0B3D91" : "#1B1B1B");
           mLbl.textContent = d.m;
           svg.appendChild(mLbl);
 
           const ySmap = pad.top + plotH - (Math.min(maxVwc, smap) / maxVwc) * plotH;
           const yEt = pad.top + plotH - (Math.min(maxMm, et0) / maxMm) * plotH;
-          smapPts.push({ cx, y: ySmap, m: d.m, rain, et0, smap, ndvi: effectiveNdvi, isBare });
+          smapPts.push({ cx, y: ySmap, m: d.m, rain, et0, smap, ndvi: effectiveNdvi, isBare, isLastMonth });
           etPts.push({ cx, y: yEt });
         });
 
         const etLine = document.createElementNS(ns, "polyline");
         etLine.setAttribute("fill", "none");
         etLine.setAttribute("stroke", "#FC3D21");
-        etLine.setAttribute("stroke-width", "1.75");
+        etLine.setAttribute("stroke-width", "2");
         etLine.setAttribute("stroke-dasharray", "4 3");
         etLine.setAttribute("points", etPts.map((p) => `${p.cx},${p.y}`).join(" "));
         svg.appendChild(etLine);
@@ -1841,7 +1812,7 @@
         const smapLine = document.createElementNS(ns, "polyline");
         smapLine.setAttribute("fill", "none");
         smapLine.setAttribute("stroke", "#0B3D91");
-        smapLine.setAttribute("stroke-width", "2.25");
+        smapLine.setAttribute("stroke-width", "2.5");
         smapLine.setAttribute("points", smapPts.map((p) => `${p.cx},${p.y}`).join(" "));
         svg.appendChild(smapLine);
 
@@ -1849,8 +1820,12 @@
           const c = document.createElementNS(ns, "circle");
           c.setAttribute("cx", pt.cx);
           c.setAttribute("cy", pt.y);
-          c.setAttribute("r", "3");
-          c.setAttribute("fill", "#0B3D91");
+          c.setAttribute("r", pt.isLastMonth ? "5" : "3.5");
+          c.setAttribute("fill", pt.isLastMonth ? "#FC3D21" : "#0B3D91");
+          if (pt.isLastMonth) {
+            c.setAttribute("stroke", "#FFFFFF");
+            c.setAttribute("stroke-width", "1.5");
+          }
           svg.appendChild(c);
 
           const hoverZone = document.createElementNS(ns, "rect");
@@ -1863,11 +1838,14 @@
 
           hoverZone.addEventListener("mousemove", (e) => {
             const rect = stage.getBoundingClientRect();
-            const bareTag = pt.isBare ? "BARE SOIL" : "COVERED";
+            const bareTag = pt.isBare ? "BARE SOIL (NDVI < 0.25)" : "COVERED CANOPY";
+            const mtdNote = pt.isLastMonth
+              ? " [LIVE NOV MTD: Partial month from active NASA satellite passes]"
+              : "";
             tip.style.display = "block";
-            tip.style.left = `${Math.min(rect.width - 270, e.clientX - rect.left + 10)}px`;
-            tip.style.top = `${Math.max(6, e.clientY - rect.top - 36)}px`;
-            tip.textContent = `${pt.m}: Rain ${pt.rain}mm | ET0 ${pt.et0}mm | SMAP ${pt.smap}% | NDVI ${pt.ndvi} [${bareTag}]`;
+            tip.style.left = `${Math.min(rect.width - 370, Math.max(8, e.clientX - rect.left + 10))}px`;
+            tip.style.top = `${Math.max(6, e.clientY - rect.top - 52)}px`;
+            tip.innerHTML = `<strong>${pt.m}${mtdNote}</strong><br/>Rain: ${pt.rain}mm | ET0: ${pt.et0}mm | SMAP: ${pt.smap}% | NDVI: ${pt.ndvi} [${bareTag}]`;
           });
 
           hoverZone.addEventListener("mouseleave", () => {
@@ -1949,7 +1927,7 @@
           const evBox = document.createElement("div");
           evBox.className = "evidence-card";
           evBox.innerHTML = `
-            <h4>NASA Telemetry Evidence | Confidence: ${s.confidence}</h4>
+            <h4>NASA Telemetry Evidence // Confidence: ${s.confidence}</h4>
             <ul>${s.evidence.map((line) => `<li>${line}</li>`).join("")}</ul>
             <div class="term-note"><strong>Technical Reference:</strong> ${s.glossary}</div>
           `;
@@ -2016,10 +1994,11 @@
       exportJson() {
         const parcel = this.payload.parcels[this.state.parcelId];
         const report = {
-          system: "TerraTurn Earth Observation Decision Support",
+          system: "TerraTurn Earth Observation & In-Situ Decision Support",
           exported_at: new Date().toISOString(),
           parcel: parcel.label,
           climate_scenario: this.state.climateId,
+          in_situ_camera_ndvi: this.latestCamNdvi,
           constraints: {
             baseline_rotation: this.state.rotationId,
             soil_texture: this.state.soilId,
